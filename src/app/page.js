@@ -2,14 +2,18 @@ import Link from "next/link";
 
 import { useRouter } from "next/navigation";
 
+/* w-[380px] h-[800px] */
+
 export default function Home() {
   return (
-    <main className="justify-center">
-      <Link href="/createUser">Create User</Link>
+    <div className="flex flex-col w-[380px] h-[800px] items-center">
+      <main className="p-10">
+        <Link href="/createUser">Create User</Link>
 
-      {/* <button onClick={() => router.push("/createUser/page")}>
+        {/* <button onClick={() => router.push("/createUser/page")}>
         Create User
       </button> */}
-    </main>
+      </main>
+    </div>
   );
 }
