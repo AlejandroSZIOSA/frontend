@@ -1,6 +1,7 @@
 "use client";
 import React, { useRef, useState } from "react";
 
+//Create async function :)
 async function createUser(id, username, password) {
   fetch("http://localhost:4000/users", {
     method: "POST",
@@ -11,21 +12,31 @@ async function createUser(id, username, password) {
     .then((data) => console.log(data))
     .catch((error) => {
       console.error("Error:", error);
+      return "error"; //return error
     });
 }
 
 export default function CreateUser() {
+  const idInputRef = useRef();
   const usernameInputRef = useRef();
   const passwordInputRef = useRef();
   const [isUserCreated, setIsUserCreated] = useState(false);
-  const [id, setId] = useState();
 
-  function submitNewUser() {
+  //Another async function :)
+  async function submitNewUser() {
     const enteredUsername = usernameInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
+    const enteredId = idInputRef.current.value;
 
-    createUser(id, enteredUsername, enteredPassword);
-    setIsUserCreated(true);
+    //Using try catch :)
+    try {
+      const res = await createUser(enteredId, enteredUsername, enteredPassword);
+      if (res == "error") {
+        setIsUserCreated(false);
+      } else setIsUserCreated(true);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   function render() {
@@ -35,12 +46,7 @@ export default function CreateUser() {
           <div>
             <label for="id">Id</label>
             <br></br>
-            <input
-              type="number"
-              id="id"
-              name="Id"
-              onChange={(e) => setId(e.target.value)}
-            />
+            <input type="number" id="id" name="Id" required ref={idInputRef} />
             <br></br>
           </div>
 
@@ -55,12 +61,6 @@ export default function CreateUser() {
             <br></br>
             <input type="text" id="pass" required ref={passwordInputRef} />
           </div>
-
-          {/* <div>
-        <label for="re-pass">Confirm Pass</label>
-        <br></br>
-        <input type="password" id="re-pass" />
-      </div> */}
 
           <div className="p-5">
             <button
