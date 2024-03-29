@@ -1,33 +1,81 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export default function loginUser() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAuth, setIsAuth] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [userData, setUserData] = useState({});
+
   const router = useRouter();
+
+  useEffect(() => {
+    getToken();
+  }, [userData]);
+
+  async function getToken() {
+    fetch("http://localhost:4000/sessions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(userData),
+    })
+      .then((response) => response.json())
+      .then((data) => setIsAuth(data))
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+  function showAccountPage() {
+    router.push("/account");
+  }
+
+  function handleLogin() {
+    setUserData({ username: username, password: password });
+  }
+
+  function render() {
+    if (!isAuth) {
+      return (
+        <>
+          <h2 className="p-2">Login User</h2>
+          <div>
+            <label for="username">Username</label>
+            <br></br>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <br></br>
+          </div>
+          <div>
+            <label for="pass">Password</label>
+            <br></br>
+            <input
+              type="text"
+              id="pass"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <br></br>
+          </div>
+          <div className="p-5">
+            <button
+              className="flex w-28 h-10 bg-red-400 items-center justify-center rounded-md"
+              onClick={handleLogin}
+            >
+              Login
+            </button>
+          </div>
+        </>
+      );
+    } else showAccountPage();
+  }
 
   return (
     <div className="flex flex-col w-[380px] h-[800px] items-center pt-10 text-lg">
-      <h2 className="p-2">Login User</h2>
-      <div>
-        <label for="username">Username</label>
-        <br></br>
-        <input type="text" id="username" name="username" />
-        <br></br>
-      </div>
-      <div>
-        <label for="pass">Password</label>
-        <br></br>
-        <input type="password" id="username" />
-        <br></br>
-      </div>
-      <div className="p-5">
-        <button className="flex w-28 h-10 bg-red-400 items-center justify-center rounded-md">
-          Login
-        </button>
-      </div>
-      {/* works */}
-      <button onClick={() => router.push("/account")}>To account </button>
+      {render()}
     </div>
   );
 }
