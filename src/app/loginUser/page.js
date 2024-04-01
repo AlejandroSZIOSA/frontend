@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export default function loginUser() {
-  const [isAuth, setIsAuth] = useState(false);
+  const [isAuth, setIsAuth] = useState(false); //Token
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [userData, setUserData] = useState({});
@@ -27,7 +27,8 @@ export default function loginUser() {
       });
   }
   function showAccountPage() {
-    router.push("/account");
+    const token = isAuth;
+    router.push(`/account/${token}`);
   }
 
   function handleLogin() {

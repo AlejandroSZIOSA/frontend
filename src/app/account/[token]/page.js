@@ -1,8 +1,9 @@
 import React from "react";
 
-export default function AccountPage() {
+export default function test({ params }) {
   return (
     <div className="flex flex-col m-3 gap-4">
+      <div>Token: {params.token}</div>
       <div>
         <h2> Your Saldo: $</h2>
       </div>
