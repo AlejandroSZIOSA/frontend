@@ -1,14 +1,35 @@
 "use client";
-import React from "react";
+import React, { useRef } from "react";
 import { useEffect, useState } from "react";
+
+//Create async FN outside the component
+async function setNewSaldo(token, newSaldo) {
+  fetch("http://localhost:4000/me/accounts/transactions", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      token: token,
+      newAmount: newSaldo,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => console.log(data))
+    .catch((error) => {
+      console.error("Error:", error);
+      return "error"; //return error
+    });
+}
 
 export default function test({ params }) {
   const token = params.token;
   const [userAccountData, setUserAccountData] = useState({});
 
+  const [isTransactionCompleted, setIsTransactionDone] = useState(false);
+  const newSaldoInputRef = useRef();
+
   useEffect(() => {
     getUserSaldo(token);
-  }, []);
+  }, [isTransactionCompleted]); //Dependency Fix the problem!
 
   async function getUserSaldo(token) {
     fetch("http://localhost:4000/me/accounts", {
@@ -24,7 +45,19 @@ export default function test({ params }) {
       });
   }
 
-  function handleNewSaldo() {}
+  //Another async function :)
+  async function submitNewSaldo() {
+    const enteredNewSaldo = newSaldoInputRef.current.value;
+
+    try {
+      const res = setNewSaldo(token, enteredNewSaldo);
+      if (res == "error") {
+        setIsTransactionDone(false);
+      } else setIsTransactionDone(true);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <div className="flex flex-col m-3 gap-4">
@@ -35,10 +68,14 @@ export default function test({ params }) {
       </div>
       <div className="flex flex-col gap-3 items-center">
         <h2>
-          In money:
-          <input type="number" />
+          New Saldo $:
+          <input type="number" required ref={newSaldoInputRef} />
         </h2>
-        <button className="w-36 h-10 bg-slate-400">Save</button>
+        <button className="w-36 h-10 bg-slate-400" onClick={submitNewSaldo}>
+          Done
+        </button>
+        {isTransactionCompleted && <p>Transaction Completed</p>}
+        <p></p>
       </div>
       <div></div>
     </div>

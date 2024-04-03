@@ -7,7 +7,7 @@ async function createUser(id, username, password) {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      userId: id,
+      id: id,
       username: username,
       password: password,
     }),
