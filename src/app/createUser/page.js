@@ -6,7 +6,11 @@ async function createUser(id, username, password) {
   fetch("http://localhost:4000/users", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ id: id, username: username, password: password }),
+    body: JSON.stringify({
+      userId: id,
+      username: username,
+      password: password,
+    }),
   })
     .then((response) => response.json())
     .then((data) => console.log(data))
@@ -26,7 +30,7 @@ export default function CreateUser() {
   async function submitNewUser() {
     const enteredUsername = usernameInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
-    const enteredId = idInputRef.current.value;
+    const enteredId = parseInt(idInputRef.current.value);
 
     //Using try catch :)
     try {

@@ -8,7 +8,6 @@ export default function test({ params }) {
 
   useEffect(() => {
     getUserSaldo(token);
-    /* getSaldo(userId); */
   }, []);
 
   async function getUserSaldo(token) {
@@ -25,7 +24,7 @@ export default function test({ params }) {
       });
   }
 
-  function handleSaveNewSaldo() {}
+  function handleNewSaldo() {}
 
   return (
     <div className="flex flex-col m-3 gap-4">
