@@ -2,12 +2,11 @@
 import React, { useRef, useState } from "react";
 
 //Create async function :)
-async function createUser(id, username, password) {
+async function createUser(username, password) {
   fetch("http://localhost:4000/users", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      id: id,
       username: username,
       password: password,
     }),
@@ -21,7 +20,6 @@ async function createUser(id, username, password) {
 }
 
 export default function CreateUser() {
-  const idInputRef = useRef();
   const usernameInputRef = useRef();
   const passwordInputRef = useRef();
   const [isUserCreated, setIsUserCreated] = useState(false);
@@ -30,11 +28,10 @@ export default function CreateUser() {
   async function submitNewUser() {
     const enteredUsername = usernameInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
-    const enteredId = parseInt(idInputRef.current.value);
 
     //Using try catch :)
     try {
-      const res = await createUser(enteredId, enteredUsername, enteredPassword);
+      const res = await createUser(enteredUsername, enteredPassword);
       if (res == "error") {
         setIsUserCreated(false);
       } else setIsUserCreated(true);
@@ -47,13 +44,6 @@ export default function CreateUser() {
     if (!isUserCreated) {
       return (
         <>
-          <div>
-            <label for="id">Id</label>
-            <br></br>
-            <input type="number" id="id" name="Id" required ref={idInputRef} />
-            <br></br>
-          </div>
-
           <div>
             <label for="username">Username</label>
             <br></br>

@@ -15,7 +15,7 @@ export default function loginUser() {
   }, [userData]);
 
   async function getToken() {
-    fetch("http://localhost:4000/sessions", {
+    fetch("http://localhost:4000/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(userData),
