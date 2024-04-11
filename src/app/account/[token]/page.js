@@ -28,8 +28,9 @@ export default function test({ params }) {
   const newSaldoInputRef = useRef();
 
   useEffect(() => {
+    /* console.log(token); */
     getUserSaldo(token);
-  }, [isTransactionCompleted]); //Dependency Fix the problem!
+  }, [isTransactionCompleted]);
 
   async function getUserSaldo(token) {
     fetch("http://localhost:4000/me/accounts", {
@@ -39,9 +40,8 @@ export default function test({ params }) {
     })
       .then((response) => response.json())
       .then((data) => setUserAccountData(data))
-      .catch((error) => {
-        console.error("Error:", error);
-        return "error"; //return error
+      .catch((e) => {
+        console.error(e);
       });
   }
 
