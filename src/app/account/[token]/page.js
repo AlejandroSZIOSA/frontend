@@ -3,14 +3,11 @@ import React, { useRef } from "react";
 import { useEffect, useState } from "react";
 
 //Create async FN outside the component
-async function setNewSaldo(token, newSaldo) {
+async function setNewSaldo(newAmount) {
   fetch("http://localhost:4000/me/accounts/transactions", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      token: token,
-      newAmount: newSaldo,
-    }),
+    body: JSON.stringify(newAmount),
   })
     .then((response) => response.json())
     .then((data) => console.log(data))
@@ -23,14 +20,14 @@ async function setNewSaldo(token, newSaldo) {
 export default function test({ params }) {
   const token = params.token;
   const [userAccountData, setUserAccountData] = useState({});
+  const [isBtnDisabled, setIsBtnDisabled] = useState(false);
 
   const [isTransactionCompleted, setIsTransactionDone] = useState(false);
   const newSaldoInputRef = useRef();
 
   useEffect(() => {
-    /* console.log(token); */
     getUserSaldo(token);
-  }, [isTransactionCompleted]);
+  }, [isTransactionCompleted, setNewSaldo]);
 
   async function getUserSaldo(token) {
     fetch("http://localhost:4000/me/accounts", {
@@ -48,12 +45,19 @@ export default function test({ params }) {
   //Another async function :)
   async function submitNewSaldo() {
     const enteredNewSaldo = newSaldoInputRef.current.value;
+    const { userId } = userAccountData;
+    const userNewAmount = { userId: userId, newAmount: enteredNewSaldo };
 
     try {
-      const res = setNewSaldo(token, enteredNewSaldo);
+      const res = setNewSaldo(userNewAmount);
       if (res == "error") {
         setIsTransactionDone(false);
-      } else setIsTransactionDone(true);
+        setIsBtnDisabled(false);
+      } else {
+        setIsTransactionDone(true);
+        setIsBtnDisabled(true);
+        newSaldoInputRef.current.value = ""; //Clean input field
+      }
     } catch (error) {
       console.log(error);
     }
@@ -61,21 +65,22 @@ export default function test({ params }) {
 
   return (
     <div className="flex flex-col m-3 gap-4">
-      <div>Current Token: {token}</div>
-      <div>Current user Id: {userAccountData.userId}</div>
       <div>
         <h2>Current Saldo: $ {userAccountData.amount}</h2>
       </div>
+      <h2>
+        New Saldo $:
+        <input type="number" required ref={newSaldoInputRef} />
+      </h2>
       <div className="flex flex-col gap-3 items-center">
-        <h2>
-          New Saldo $:
-          <input type="number" required ref={newSaldoInputRef} />
-        </h2>
-        <button className="w-36 h-10 bg-slate-400" onClick={submitNewSaldo}>
+        <button
+          className="w-36 h-10 bg-slate-400"
+          onClick={submitNewSaldo}
+          disabled={isBtnDisabled}
+        >
           Done
         </button>
         {isTransactionCompleted && <p>Transaction Completed</p>}
-        <p></p>
       </div>
       <div></div>
     </div>
