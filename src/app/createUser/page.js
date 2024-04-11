@@ -12,9 +12,11 @@ async function createUser(username, password) {
     }),
   })
     .then((response) => response.json())
-    .then((data) => console.log(data))
+    .then((data) => {
+      return data;
+    })
     .catch((error) => {
-      console.error("Error:", error);
+      //console.error("Error:", error);
       return "error"; //return error
     });
 }
@@ -22,6 +24,8 @@ async function createUser(username, password) {
 export default function CreateUser() {
   const usernameInputRef = useRef();
   const passwordInputRef = useRef();
+
+  const [errorMessage, setErrorMessage] = useState("");
   const [isUserCreated, setIsUserCreated] = useState(false);
 
   //Another async function :)
@@ -30,11 +34,19 @@ export default function CreateUser() {
     const enteredPassword = passwordInputRef.current.value;
 
     //Using try catch :)
+    //TODO:Fix if else!
     try {
-      const res = await createUser(enteredUsername, enteredPassword);
-      if (res == "error") {
+      if (enteredPassword != "" && enteredUsername != "") {
+        const res = await createUser(enteredUsername, enteredPassword);
+        if (res == "error") {
+          setIsUserCreated(false);
+        } else {
+          setIsUserCreated(true);
+        }
+      } else {
+        setErrorMessage("Input Error");
         setIsUserCreated(false);
-      } else setIsUserCreated(true);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -45,15 +57,15 @@ export default function CreateUser() {
       return (
         <>
           <div>
-            <label for="username">Username</label>
+            <label>Username</label>
             <br></br>
-            <input type="text" id="username" required ref={usernameInputRef} />
+            <input type="text" required ref={usernameInputRef} />
           </div>
 
           <div>
-            <label for="pass">New pass</label>
+            <label>New pass</label>
             <br></br>
-            <input type="text" id="pass" required ref={passwordInputRef} />
+            <input type="text" required ref={passwordInputRef} />
           </div>
 
           <div className="p-5">
@@ -64,6 +76,7 @@ export default function CreateUser() {
               Create
             </button>
           </div>
+          <p>{errorMessage}</p>
         </>
       );
     } else return <h1>User Created!</h1>;

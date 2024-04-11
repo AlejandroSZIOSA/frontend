@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
+//TODO: useRef + validate inputs
 export default function loginUser() {
   const [isAuth, setIsAuth] = useState(false); //Token
   const [username, setUsername] = useState("");
@@ -23,12 +24,13 @@ export default function loginUser() {
       .then((response) => response.json())
       .then((data) => setIsAuth(data))
       .catch((error) => {
-        console.error("Error:", error);
+        setIsAuth(false);
+        /* console.error("Error:", error); */
       });
   }
   function showAccountPage() {
-    const token = isAuth;
-    router.push(`/account/${token}`);
+    /* const token = isAuth; */
+    router.push(`/account/${isAuth}`);
   }
 
   function handleLogin() {
@@ -41,18 +43,13 @@ export default function loginUser() {
         <>
           <h2 className="p-2">Login User</h2>
           <div>
-            <label for="username">Username</label>
+            <label>Username</label>
             <br></br>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              onChange={(e) => setUsername(e.target.value)}
-            />
+            <input type="text" onChange={(e) => setUsername(e.target.value)} />
             <br></br>
           </div>
           <div>
-            <label for="pass">Password</label>
+            <label>Password</label>
             <br></br>
             <input
               type="text"

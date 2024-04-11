@@ -10,7 +10,9 @@ async function setNewSaldo(newAmount) {
     body: JSON.stringify(newAmount),
   })
     .then((response) => response.json())
-    .then((data) => console.log(data))
+    .then((data) => {
+      return data;
+    })
     .catch((error) => {
       console.error("Error:", error);
       return "error"; //return error
@@ -20,14 +22,17 @@ async function setNewSaldo(newAmount) {
 export default function test({ params }) {
   const token = params.token;
   const [userAccountData, setUserAccountData] = useState({});
-  const [isBtnDisabled, setIsBtnDisabled] = useState(false);
+  const [isBtnDisabled, setIsBtnDisabled] = useState({
+    disabled: false,
+    opacity: 100, //PROBLEM
+  });
 
   const [isTransactionCompleted, setIsTransactionDone] = useState(false);
   const newSaldoInputRef = useRef();
 
   useEffect(() => {
     getUserSaldo(token);
-  }, [isTransactionCompleted, setNewSaldo]);
+  }, [isTransactionCompleted]);
 
   async function getUserSaldo(token) {
     fetch("http://localhost:4000/me/accounts", {
@@ -44,18 +49,19 @@ export default function test({ params }) {
 
   //Another async function :)
   async function submitNewSaldo() {
+    console.log("click");
     const enteredNewSaldo = newSaldoInputRef.current.value;
     const { userId } = userAccountData;
     const userNewAmount = { userId: userId, newAmount: enteredNewSaldo };
 
     try {
-      const res = setNewSaldo(userNewAmount);
+      const res = await setNewSaldo(userNewAmount);
       if (res == "error") {
         setIsTransactionDone(false);
-        setIsBtnDisabled(false);
+        /* setIsBtnDisabled({disabled:false}); */
       } else {
         setIsTransactionDone(true);
-        setIsBtnDisabled(true);
+        setIsBtnDisabled({ disabled: true, opacity: 95 });
         newSaldoInputRef.current.value = ""; //Clean input field
       }
     } catch (error) {
@@ -72,11 +78,13 @@ export default function test({ params }) {
         New Saldo $:
         <input type="number" required ref={newSaldoInputRef} />
       </h2>
-      <div className="flex flex-col gap-3 items-center">
+      <div
+        className={`flex flex-col gap-3 items-center opacity-${isBtnDisabled.opacity}`}
+      >
         <button
           className="w-36 h-10 bg-slate-400"
           onClick={submitNewSaldo}
-          disabled={isBtnDisabled}
+          disabled={isBtnDisabled.disabled}
         >
           Done
         </button>
