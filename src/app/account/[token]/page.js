@@ -14,25 +14,26 @@ async function handleNewSaldo(newAmount) {
       return data;
     })
     .catch((error) => {
-      console.error("Error:", error);
+      //console.error("Error:", error);
       return "error"; //return error
     });
 }
 
-export default function test({ params }) {
+export default function account({ params }) {
   const token = params.token;
   const [userAccountData, setUserAccountData] = useState({});
   const [isBtnDisabled, setIsBtnDisabled] = useState({
     disabled: false,
-    opacity: 100, //PROBLEM
+    opacity: 100,
   });
 
-  const [isTransactionCompleted, setIsTransactionDone] = useState(false);
   const newSaldoInputRef = useRef();
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isTransactionDone, setIsTransactionDone] = useState(false);
 
   useEffect(() => {
     getUserSaldo(token);
-  }, [isTransactionCompleted]);
+  }, [isTransactionDone, userAccountData]); //Fix problem
 
   async function getUserSaldo(token) {
     fetch("http://localhost:4000/me/accounts", {
@@ -43,29 +44,34 @@ export default function test({ params }) {
       .then((response) => response.json())
       .then((data) => setUserAccountData(data))
       .catch((e) => {
-        console.error(e);
+        //console.error(e);
       });
   }
 
   //Another async function :)
   async function submitNewSaldo() {
-    /* console.log("click"); */
     const enteredNewSaldo = newSaldoInputRef.current.value;
-    const { userId } = userAccountData;
-    const userNewAmount = { userId: userId, newAmount: enteredNewSaldo };
 
-    try {
-      const res = await handleNewSaldo(userNewAmount);
-      if (res == "error") {
-        setIsTransactionDone(false);
-        /* setIsBtnDisabled({disabled:false}); */
-      } else {
-        setIsTransactionDone(true);
-        setIsBtnDisabled({ disabled: true, opacity: 95 });
-        newSaldoInputRef.current.value = ""; //Clean input field
+    if (enteredNewSaldo != "") {
+      setErrorMessage("");
+      const { userId } = userAccountData;
+      const userNewAmount = { userId: userId, newAmount: enteredNewSaldo };
+
+      try {
+        const res = await handleNewSaldo(userNewAmount);
+        if (res == "error") {
+          setIsTransactionDone(false);
+          setErrorMessage("Error: From the server, try later!");
+        } else {
+          setIsTransactionDone(true);
+          setIsBtnDisabled({ disabled: true, opacity: 50 });
+          newSaldoInputRef.current.value = ""; //Clean input field
+        }
+      } catch (error) {
+        //console.log(error);
       }
-    } catch (error) {
-      console.log(error);
+    } else {
+      setErrorMessage("Error: Input");
     }
   }
 
@@ -74,23 +80,23 @@ export default function test({ params }) {
       <div>
         <h2>Current Saldo: $ {userAccountData.amount}</h2>
       </div>
-      <h2>
-        New Saldo $:
-        <input type="number" required ref={newSaldoInputRef} />
-      </h2>
+      <div className="flex flex-row gap-2">
+        <h2>New Saldo $:</h2>
+        <input type="number" ref={newSaldoInputRef} />
+      </div>
       <div
         className={`flex flex-col gap-3 items-center opacity-${isBtnDisabled.opacity}`}
       >
         <button
-          className="w-36 h-10 bg-slate-400"
+          className="w-36 h-10 bg-black text-white"
           onClick={submitNewSaldo}
           disabled={isBtnDisabled.disabled}
         >
           Done
         </button>
-        {isTransactionCompleted && <p>Transaction Completed</p>}
+        {isTransactionDone && <p>Transaction Done!</p>}
+        <p>{errorMessage}</p>
       </div>
-      <div></div>
     </div>
   );
 }

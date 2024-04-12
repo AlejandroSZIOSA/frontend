@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 
-//TODO: useRef + validate inputs
 export default function loginUser() {
   const [isAuth, setIsAuth] = useState(false); //Token
   const [userData, setUserData] = useState({});
