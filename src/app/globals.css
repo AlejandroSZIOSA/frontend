@@ -13,10 +13,6 @@ body {
   h2 {
     @apply text-xl;
   }
-  fieldset {
-  }
-  legend {
-  }
 }
 /* :root {
   --foreground-rgb: 0, 0, 0;

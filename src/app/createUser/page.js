@@ -33,22 +33,21 @@ export default function CreateUser() {
     const enteredUsername = usernameInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
 
-    //Using try catch :)
-    //TODO:Fix if else!
-    try {
-      if (enteredPassword != "" && enteredUsername != "") {
+    if (enteredPassword != "" && enteredUsername != "") {
+      //Using try catch :)
+      try {
         const res = await createUser(enteredUsername, enteredPassword);
         if (res == "error") {
           setIsUserCreated(false);
         } else {
           setIsUserCreated(true);
         }
-      } else {
-        setErrorMessage("Input Error");
-        setIsUserCreated(false);
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
+    } else {
+      setErrorMessage("Error: Inputs");
+      setIsUserCreated(false);
     }
   }
 
@@ -59,13 +58,13 @@ export default function CreateUser() {
           <div>
             <label>Username</label>
             <br></br>
-            <input type="text" required ref={usernameInputRef} />
+            <input type="text" ref={usernameInputRef} />
           </div>
 
           <div>
             <label>New pass</label>
             <br></br>
-            <input type="text" required ref={passwordInputRef} />
+            <input type="text" ref={passwordInputRef} />
           </div>
 
           <div className="p-5">

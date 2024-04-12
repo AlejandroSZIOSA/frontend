@@ -3,7 +3,7 @@ import React, { useRef } from "react";
 import { useEffect, useState } from "react";
 
 //Create async FN outside the component
-async function setNewSaldo(newAmount) {
+async function handleNewSaldo(newAmount) {
   fetch("http://localhost:4000/me/accounts/transactions", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -49,13 +49,13 @@ export default function test({ params }) {
 
   //Another async function :)
   async function submitNewSaldo() {
-    console.log("click");
+    /* console.log("click"); */
     const enteredNewSaldo = newSaldoInputRef.current.value;
     const { userId } = userAccountData;
     const userNewAmount = { userId: userId, newAmount: enteredNewSaldo };
 
     try {
-      const res = await setNewSaldo(userNewAmount);
+      const res = await handleNewSaldo(userNewAmount);
       if (res == "error") {
         setIsTransactionDone(false);
         /* setIsBtnDisabled({disabled:false}); */

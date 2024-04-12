@@ -1,13 +1,15 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 
 //TODO: useRef + validate inputs
 export default function loginUser() {
   const [isAuth, setIsAuth] = useState(false); //Token
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [userData, setUserData] = useState({});
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const usernameInputRef = useRef();
+  const passwordInputRef = useRef();
 
   const router = useRouter();
 
@@ -34,7 +36,15 @@ export default function loginUser() {
   }
 
   function handleLogin() {
-    setUserData({ username: username, password: password });
+    const enteredUsername = usernameInputRef.current.value;
+    const enteredPassword = passwordInputRef.current.value;
+
+    if (enteredPassword != "" && enteredUsername != "") {
+      setUserData({ username: enteredUsername, password: enteredPassword });
+      setErrorMessage("Login OK!");
+    } else {
+      setErrorMessage("Error: Inputs");
+    }
   }
 
   function render() {
@@ -45,17 +55,13 @@ export default function loginUser() {
           <div>
             <label>Username</label>
             <br></br>
-            <input type="text" onChange={(e) => setUsername(e.target.value)} />
+            <input type="text" ref={usernameInputRef} />
             <br></br>
           </div>
           <div>
             <label>Password</label>
             <br></br>
-            <input
-              type="text"
-              id="pass"
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <input type="text" ref={passwordInputRef} />
             <br></br>
           </div>
           <div className="p-5">
@@ -66,6 +72,7 @@ export default function loginUser() {
               Login
             </button>
           </div>
+          <p>{errorMessage}</p>
         </>
       );
     } else showAccountPage();
