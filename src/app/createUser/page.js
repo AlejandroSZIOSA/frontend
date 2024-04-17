@@ -3,7 +3,7 @@ import React, { useRef, useState } from "react";
 
 //Create async function :)
 async function createUser(username, password) {
-  fetch("http://localhost:4000/users", {
+  fetch("http://ec2-13-60-14-126.eu-north-1.compute.amazonaws.com:4000/users", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({

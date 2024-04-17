@@ -4,11 +4,14 @@ import { useEffect, useState } from "react";
 
 //Create async FN outside the component
 async function handleNewSaldo(newAmount) {
-  fetch("http://localhost:4000/me/accounts/transactions", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(newAmount),
-  })
+  fetch(
+    "http://ec2-13-60-14-126.eu-north-1.compute.amazonaws.com:4000/me/accounts/transactions",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newAmount),
+    }
+  )
     .then((response) => response.json())
     .then((data) => {
       return data;
@@ -36,11 +39,14 @@ export default function account({ params }) {
   }, [isTransactionDone, userAccountData]); //Fix problem
 
   async function getUserSaldo(token) {
-    fetch("http://localhost:4000/me/accounts", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token: token }),
-    })
+    fetch(
+      "http://ec2-13-60-14-126.eu-north-1.compute.amazonaws.com:4000/me/accounts",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: token }),
+      }
+    )
       .then((response) => response.json())
       .then((data) => setUserAccountData(data))
       .catch((e) => {
