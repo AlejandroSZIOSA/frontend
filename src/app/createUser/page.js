@@ -1,5 +1,6 @@
 "use client";
 import React, { useRef, useState } from "react";
+import PrimaryBtn from "../components/PrimaryBtn";
 
 //Create async function :)
 async function createUser(username, password) {
@@ -68,12 +69,7 @@ export default function CreateUser() {
           </div>
 
           <div className="p-5">
-            <button
-              className="flex w-28 h-10 bg-[#A79277] text-[#FFF2E1] items-center justify-center rounded-md"
-              onClick={submitNewUser}
-            >
-              Create
-            </button>
+            <PrimaryBtn onClickFn={submitNewUser}>Create</PrimaryBtn>
           </div>
           <p>{errorMessage}</p>
         </>

@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import PrimaryBtn from "../components/PrimaryBtn";
 
 export default function loginUser() {
   const [isAuth, setIsAuth] = useState(false); //Token
@@ -35,14 +36,15 @@ export default function loginUser() {
   }
 
   function handleLogin() {
-    const enteredUsername = usernameInputRef.current.value;
+    setIsAuth(true);
+    /* const enteredUsername = usernameInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
 
     if (enteredPassword != "" && enteredUsername != "") {
       setUserData({ username: enteredUsername, password: enteredPassword });
     } else {
       setErrorMessage("Error: Inputs");
-    }
+    } */
   }
 
   function render() {
@@ -63,12 +65,7 @@ export default function loginUser() {
             <br></br>
           </div>
           <div className="p-5">
-            <button
-              className="flex w-28 h-10 bg-[#A79277] text-[#FFF2E1] items-center justify-center rounded-md"
-              onClick={handleLogin}
-            >
-              Login
-            </button>
+            <PrimaryBtn onClickFn={handleLogin}>Login</PrimaryBtn>
           </div>
           <p>{errorMessage}</p>
         </>

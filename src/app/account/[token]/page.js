@@ -82,7 +82,7 @@ export default function account({ params }) {
         <div>
           <h2>Current Saldo: $ {userAccountData.amount}</h2>
         </div>
-        <div className="flex flex-row items-center gap-2">
+        <div className="flex flex-row items-center gap-5">
           <h2>New Saldo $:</h2>
           <input
             type="number"
@@ -91,7 +91,7 @@ export default function account({ params }) {
           />
           <div className="hidden md:contents">
             <button
-              className="w-36 h-10 bg-black text-[#FFF2E1] rounded-md"
+              className={`w-36 h-14 bg-black text-[#FFF2E1] rounded-md opacity-${isBtnDisabled.opacity}`}
               onClick={submitNewSaldo}
               disabled={isBtnDisabled.disabled}
             >
@@ -100,15 +100,14 @@ export default function account({ params }) {
           </div>
         </div>
         <div className="hidden md:contents">
-          {isTransactionDone && <p>Transaction Done!</p>}
-          <p className="ml-32">{errorMessage}</p>
+          {isTransactionDone && <p className="ml-40">Transaction Done!</p>}
+          <p className="ml-40">{errorMessage}</p>
         </div>
       </div>
-      <div
-        className={`flex flex-col md:hidden p-4 gap-4 items-center opacity-${isBtnDisabled.opacity}`}
-      >
+      <div className="flex flex-col md:hidden py-7 gap-4 items-center">
+        {/*  TODO: Problem when use a reusable Btn (bgColor) */}
         <button
-          className="w-36 h-10 bg-black text-[#FFF2E1] rounded-md"
+          className={`w-36 h-14 bg-black text-[#FFF2E1] rounded-md opacity-${isBtnDisabled.opacity}`}
           onClick={submitNewSaldo}
           disabled={isBtnDisabled.disabled}
         >
