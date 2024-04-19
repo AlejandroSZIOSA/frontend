@@ -55,14 +55,14 @@ export default function CreateUser() {
     if (!isUserCreated) {
       return (
         <>
+          <h1 className="pb-8">Create User</h1>
           <div>
             <label>Username</label>
             <br></br>
             <input type="text" ref={usernameInputRef} />
           </div>
-
           <div>
-            <label>New pass</label>
+            <label>Password</label>
             <br></br>
             <input type="text" ref={passwordInputRef} />
           </div>
@@ -82,9 +82,6 @@ export default function CreateUser() {
   }
 
   return (
-    <div className="flex flex-col items-center pt-10 text-lg">
-      <h2 className="p-2">Create User</h2>
-      {render()}
-    </div>
+    <div className="flex flex-col items-center pt-10 text-lg">{render()}</div>
   );
 }

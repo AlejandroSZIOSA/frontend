@@ -35,22 +35,21 @@ export default function loginUser() {
   }
 
   function handleLogin() {
-    setIsAuth(true); // Remove this
-    /* const enteredUsername = usernameInputRef.current.value;
+    const enteredUsername = usernameInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
 
     if (enteredPassword != "" && enteredUsername != "") {
       setUserData({ username: enteredUsername, password: enteredPassword });
     } else {
       setErrorMessage("Error: Inputs");
-    } */
+    }
   }
 
   function render() {
     if (!isAuth) {
       return (
         <>
-          <h2 className="p-2">Login User</h2>
+          <h1 className="pb-8">Login User</h1>
           <div>
             <label>Username</label>
             <br></br>

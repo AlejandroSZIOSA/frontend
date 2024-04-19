@@ -76,14 +76,19 @@ export default function account({ params }) {
   }
 
   return (
-    <div className="flex flex-col p-4 items-center">
+    <div className="flex flex-col py-10 items-center">
+      <h1 className="pb-8">User Account</h1>
       <div className="flex flex-col gap-4">
         <div>
           <h2>Current Saldo: $ {userAccountData.amount}</h2>
         </div>
-        <div className="flex flex-row gap-2">
-          <h2 className="p-0 md:p-1">New Saldo $:</h2>
-          <input type="number" ref={newSaldoInputRef} />
+        <div className="flex flex-row items-center gap-2">
+          <h2>New Saldo $:</h2>
+          <input
+            type="number"
+            ref={newSaldoInputRef}
+            className="w-48 md:w-72"
+          />
           <div className="hidden md:contents">
             <button
               className="w-36 h-10 bg-black text-[#FFF2E1] rounded-md"
