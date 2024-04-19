@@ -36,15 +36,14 @@ export default function loginUser() {
   }
 
   function handleLogin() {
-    setIsAuth(true);
-    /* const enteredUsername = usernameInputRef.current.value;
+    const enteredUsername = usernameInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
 
     if (enteredPassword != "" && enteredUsername != "") {
       setUserData({ username: enteredUsername, password: enteredPassword });
     } else {
       setErrorMessage("Error: Inputs");
-    } */
+    }
   }
 
   function render() {
