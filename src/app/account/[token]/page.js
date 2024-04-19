@@ -76,7 +76,7 @@ export default function account({ params }) {
   }
 
   return (
-    <div className="flex flex-col w-[380px] md:w-full h-[800px] p-4 md:items-center">
+    <div className="flex flex-col p-4 items-center">
       <div className="flex flex-col gap-4">
         <div>
           <h2>Current Saldo: $ {userAccountData.amount}</h2>
@@ -86,7 +86,7 @@ export default function account({ params }) {
           <input type="number" ref={newSaldoInputRef} />
           <div className="hidden md:contents">
             <button
-              className="w-36 h-10 bg-black text-white"
+              className="w-36 h-10 bg-black text-[#FFF2E1] rounded-md"
               onClick={submitNewSaldo}
               disabled={isBtnDisabled.disabled}
             >
@@ -103,7 +103,7 @@ export default function account({ params }) {
         className={`flex flex-col md:hidden p-4 gap-4 items-center opacity-${isBtnDisabled.opacity}`}
       >
         <button
-          className="w-36 h-10 bg-black text-white"
+          className="w-36 h-10 bg-black text-[#FFF2E1] rounded-md"
           onClick={submitNewSaldo}
           disabled={isBtnDisabled.disabled}
         >

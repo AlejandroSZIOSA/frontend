@@ -3,8 +3,8 @@ import React from "react";
 
 export default function Nav() {
   return (
-    <nav className="bg-slate-300 w-full ">
-      <ul className="flex flex-row h-20 list-none justify-around items-center text-base m-0">
+    <nav className="bg-[#A79277] w-full ">
+      <ul className="flex flex-row h-20 list-none justify-around items-center text-base text-[#FFF2E1] m-0">
         <li>
           <Link href="/"> Home</Link>
         </li>
