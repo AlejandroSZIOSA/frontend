@@ -17,14 +17,11 @@ export default function loginUser() {
   }, [userData]);
 
   async function getToken() {
-    fetch(
-      "http://ec2-13-60-14-126.eu-north-1.compute.amazonaws.com:4000/login",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(userData),
-      }
-    )
+    fetch("http://16.170.15.0:4000/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(userData),
+    })
       .then((response) => response.json())
       .then((data) => setIsAuth(data))
       .catch((error) => {
