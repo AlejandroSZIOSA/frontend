@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex flex-col w-[380px] h-[800px] items-center pt-10 text-lg">
+    <div className="flex flex-col w-[380px] md:w-full h-[800px] items-center pt-10 text-lg">
       <div className="p-5">
         <Link
           href="/createUser"

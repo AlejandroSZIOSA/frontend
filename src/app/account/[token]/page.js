@@ -76,16 +76,31 @@ export default function account({ params }) {
   }
 
   return (
-    <div className="flex flex-col m-3 gap-4">
-      <div>
-        <h2>Current Saldo: $ {userAccountData.amount}</h2>
-      </div>
-      <div className="flex flex-row gap-2">
-        <h2>New Saldo $:</h2>
-        <input type="number" ref={newSaldoInputRef} />
+    <div className="flex flex-col w-[380px] md:w-full h-[800px] p-4 md:items-center">
+      <div className="flex flex-col gap-4">
+        <div>
+          <h2>Current Saldo: $ {userAccountData.amount}</h2>
+        </div>
+        <div className="flex flex-row gap-2">
+          <h2 className="p-0 md:p-1">New Saldo $:</h2>
+          <input type="number" ref={newSaldoInputRef} />
+          <div className="hidden md:contents">
+            <button
+              className="w-36 h-10 bg-black text-white"
+              onClick={submitNewSaldo}
+              disabled={isBtnDisabled.disabled}
+            >
+              Done
+            </button>
+          </div>
+        </div>
+        <div className="hidden md:contents">
+          {isTransactionDone && <p>Transaction Done!</p>}
+          <p className="ml-32">{errorMessage}</p>
+        </div>
       </div>
       <div
-        className={`flex flex-col gap-3 items-center opacity-${isBtnDisabled.opacity}`}
+        className={`flex flex-col md:hidden p-4 gap-4 items-center opacity-${isBtnDisabled.opacity}`}
       >
         <button
           className="w-36 h-10 bg-black text-white"
@@ -94,8 +109,10 @@ export default function account({ params }) {
         >
           Done
         </button>
-        {isTransactionDone && <p>Transaction Done!</p>}
-        <p>{errorMessage}</p>
+        <div className="contents md:hidden">
+          {isTransactionDone && <p>Transaction Done!</p>}
+          <p>{errorMessage}</p>
+        </div>
       </div>
     </div>
   );

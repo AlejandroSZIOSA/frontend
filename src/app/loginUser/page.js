@@ -35,15 +35,15 @@ export default function loginUser() {
   }
 
   function handleLogin() {
-    const enteredUsername = usernameInputRef.current.value;
+    setIsAuth(true); // Remove this
+    /* const enteredUsername = usernameInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
 
     if (enteredPassword != "" && enteredUsername != "") {
       setUserData({ username: enteredUsername, password: enteredPassword });
-      setErrorMessage("Login OK!");
     } else {
       setErrorMessage("Error: Inputs");
-    }
+    } */
   }
 
   function render() {
@@ -78,7 +78,7 @@ export default function loginUser() {
   }
 
   return (
-    <div className="flex flex-col w-[380px] h-[800px] items-center pt-10 text-lg">
+    <div className="flex flex-col w-[380px] md:w-full h-[800px] items-center pt-10 text-lg">
       {render()}
     </div>
   );

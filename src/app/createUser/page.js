@@ -82,7 +82,7 @@ export default function CreateUser() {
   }
 
   return (
-    <div className="flex flex-col w-[380px] h-[800px] items-center pt-10 text-lg">
+    <div className="flex flex-col w-[380px] md:w-full h-[800px] items-center pt-10 text-lg">
       <h2 className="p-2">Create User</h2>
       {render()}
     </div>
