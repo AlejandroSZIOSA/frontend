@@ -1,2 +1,2 @@
-1-Reusable Primary BTN 
+1-Reusable Primary BTN (fixa den black)
 2-Password Confirmation
