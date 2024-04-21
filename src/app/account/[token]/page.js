@@ -1,4 +1,5 @@
 "use client";
+import PrimaryBtn from "@/app/components/PrimaryBtn";
 import React, { useRef } from "react";
 import { useEffect, useState } from "react";
 
@@ -24,7 +25,7 @@ export default function account({ params }) {
   const [userAccountData, setUserAccountData] = useState({});
   const [isBtnDisabled, setIsBtnDisabled] = useState({
     disabled: false,
-    opacity: 100,
+    opacity: "max",
   });
 
   const newSaldoInputRef = useRef();
@@ -64,7 +65,7 @@ export default function account({ params }) {
           setErrorMessage("Error: From the server, try later!");
         } else {
           setIsTransactionDone(true);
-          setIsBtnDisabled({ disabled: true, opacity: 50 });
+          setIsBtnDisabled({ disabled: true, opacity: "half" });
           newSaldoInputRef.current.value = ""; //Clean input field
         }
       } catch (error) {
@@ -90,13 +91,14 @@ export default function account({ params }) {
             className="w-48 md:w-72"
           />
           <div className="hidden md:contents">
-            <button
-              className={`w-36 h-14 bg-black text-[#FFF2E1] rounded-md opacity-${isBtnDisabled.opacity}`}
-              onClick={submitNewSaldo}
+            <PrimaryBtn
+              onClickFn={submitNewSaldo}
               disabled={isBtnDisabled.disabled}
+              opacity={isBtnDisabled.opacity}
+              bgColor="black" //Reusable cod in PrimaryBtn
             >
               Done
-            </button>
+            </PrimaryBtn>
           </div>
         </div>
         <div className="hidden md:contents">
@@ -105,14 +107,14 @@ export default function account({ params }) {
         </div>
       </div>
       <div className="flex flex-col md:hidden py-7 gap-4 items-center">
-        {/*  TODO: Problem when use a reusable Btn (bgColor) */}
-        <button
-          className={`w-36 h-14 bg-black text-[#FFF2E1] rounded-md opacity-${isBtnDisabled.opacity}`}
-          onClick={submitNewSaldo}
+        <PrimaryBtn
+          onClickFn={submitNewSaldo}
           disabled={isBtnDisabled.disabled}
+          opacity={isBtnDisabled.opacity}
+          bgColor="black" //Reusable cod in PrimaryBtn
         >
           Done
-        </button>
+        </PrimaryBtn>
         <div className="contents md:hidden">
           {isTransactionDone && <p>Transaction Done!</p>}
           <p>{errorMessage}</p>
