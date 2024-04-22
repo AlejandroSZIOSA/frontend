@@ -25,7 +25,7 @@ export default function account({ params }) {
   const [userAccountData, setUserAccountData] = useState({});
   const [isBtnDisabled, setIsBtnDisabled] = useState({
     disabled: false,
-    opacity: "max",
+    opacity: "noOpacity",
   });
 
   const newSaldoInputRef = useRef();
