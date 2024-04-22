@@ -1,10 +1,11 @@
 "use client";
 import React, { useRef, useState } from "react";
 import PrimaryBtn from "../components/PrimaryBtn";
+import CONSTANTS from "../utils/constants";
 
 //Create async function :)
 async function createUser(username, password) {
-  fetch("http://16.170.15.0:4000/users", {
+  fetch(`${CONSTANTS.API_BASE_URL}/users`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -17,7 +18,7 @@ async function createUser(username, password) {
       return data;
     })
     .catch((error) => {
-      //console.error("Error:", error);
+      console.log(error);
       return "error"; //return error
     });
 }

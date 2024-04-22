@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import PrimaryBtn from "../components/PrimaryBtn";
+import CONSTANTS from "../utils/constants";
 
 export default function loginUser() {
   const [isAuth, setIsAuth] = useState(false); //Token
@@ -18,7 +19,7 @@ export default function loginUser() {
   }, [userData]);
 
   async function getToken() {
-    fetch("http://16.170.15.0:4000/login", {
+    fetch(`${CONSTANTS.API_BASE_URL}/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(userData),
@@ -27,7 +28,7 @@ export default function loginUser() {
       .then((data) => setIsAuth(data))
       .catch((error) => {
         setIsAuth(false);
-        /* console.error("Error:", error); */
+        /*console.error("Error:", error); */
       });
   }
   function showAccountPage() {

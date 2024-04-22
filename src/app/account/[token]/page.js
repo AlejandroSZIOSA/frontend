@@ -2,10 +2,11 @@
 import PrimaryBtn from "@/app/components/PrimaryBtn";
 import React, { useRef } from "react";
 import { useEffect, useState } from "react";
+import CONSTANTS from "@/app/utils/constants";
 
 //Create async FN outside the component
 async function handleNewSaldo(newAmount) {
-  fetch("http://16.170.15.0:4000/me/accounts/transactions", {
+  fetch(`${CONSTANTS.API_BASE_URL}/me/accounts/transactions`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(newAmount),
@@ -31,13 +32,14 @@ export default function account({ params }) {
   const newSaldoInputRef = useRef();
   const [errorMessage, setErrorMessage] = useState("");
   const [isTransactionDone, setIsTransactionDone] = useState(false);
+  const [isInputDisabled, setIsInputDisabled] = useState(false);
 
   useEffect(() => {
     getUserSaldo(token);
   }, [isTransactionDone, userAccountData]); //Fix problem
 
   async function getUserSaldo(token) {
-    fetch("http://16.170.15.0:4000/me/accounts", {
+    fetch(`${CONSTANTS.API_BASE_URL}/me/accounts`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token: token }),
@@ -66,6 +68,7 @@ export default function account({ params }) {
         } else {
           setIsTransactionDone(true);
           setIsBtnDisabled({ disabled: true, opacity: "half" });
+          setIsInputDisabled(true);
           newSaldoInputRef.current.value = ""; //Clean input field
         }
       } catch (error) {
@@ -89,6 +92,7 @@ export default function account({ params }) {
             type="number"
             ref={newSaldoInputRef}
             className="w-48 md:w-72"
+            disabled={isInputDisabled}
           />
           <div className="hidden md:contents">
             <PrimaryBtn
