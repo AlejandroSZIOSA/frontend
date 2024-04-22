@@ -84,7 +84,7 @@ export default function account({ params }) {
       <h1 className="pb-8">User Account</h1>
       <div className="flex flex-col gap-4">
         <div>
-          <h2>Current Saldo: $ {userAccountData.amount}</h2>
+          <h2>Current Saldo: $ {userAccountData.amount} Kr</h2>
         </div>
         <div className="flex flex-row items-center gap-5">
           <h2>New Saldo $:</h2>

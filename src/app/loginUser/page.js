@@ -39,6 +39,7 @@ export default function loginUser() {
   function handleLogin() {
     //NOTE: Test purposes
     //setIsAuth(true);
+
     const enteredUsername = usernameInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
 
